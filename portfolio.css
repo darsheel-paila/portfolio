@@ -8,7 +8,10 @@
 
 @keyframes fadeIn { to { opacity: 1; } }
 
-
+*:focus {
+  outline: none;
+  caret-color: transparent;
+}
 
 /* Layout */
 html,body {
@@ -16,6 +19,8 @@ html,body {
   background: url("images/Asset 3.png") no-repeat center top;
   background-size: 100vw ; /* lock width to viewport, keep aspect ratio */
   background-color: black; /* fallback on sides */
+  scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 
 ul {
@@ -31,7 +36,7 @@ li {
   font-weight: normal;
   font-size: x-large;
   color: white;
-  padding: 30px;
+  padding: 20px;
   display: inline-flex;
   transition: color .3s ease, transform .3s ease;
 }
@@ -137,7 +142,7 @@ li:hover {
   top: 0;
   z-index: 100;
   width: 100%;
-  background-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 30%, transparent 100%);
+  background-image: transparent 100%;
   backdrop-filter: blur(8px);
   max-width: 100vw; /* align with original image design */
   margin: 0 auto;    /* center content */
@@ -147,6 +152,7 @@ li:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-left: 20px;
 }
 
 /* Left text */ 
@@ -156,7 +162,7 @@ li:hover {
   font-weight: normal;
   font-size: 1.5rem;
   text-decoration: none;
-
+  
 }
 
 /* Right UL */
@@ -164,7 +170,7 @@ li:hover {
   display: flex;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding-right: 30px;
   gap: 20px;
   opacity: 0;
   animation: fadeIn 4s cubic-bezier(0,0.19,0,1) 1s forwards; 
@@ -182,8 +188,8 @@ li:hover {
 
 }
 
-.nav-right li a:hover {
-  color: rgb(217, 74, 74)!important;
+#navbar li a:hover {
+  color: rgb(251, 86, 99)!important;
   transform: scale(1.1);
   cursor: pointer;
 }
@@ -241,5 +247,55 @@ h1:hover::after {
   to   { transform: translateY(-3vh) rotate(360deg); }
 }
 
+/*bottom bar*/
+
+.bottombar {
+  bottom: 0;
+  width: 100%;
+  height: 300px;
+  background-color: rgb(63, 63, 63);
+  display: flex;
+  justify-content: space-between;
+}
+
+.cm {
+  max-width: 20%;
+  text-align: center;
+}
 
 
+
+.bottombar div {
+  padding-left: 5%;
+  padding-top: 20px;
+  vertical-align: middle;
+}
+
+.bottombar h1 {
+  font-family: "Baloo 2", system-ui;
+  font-weight: 500;
+  color: white;
+  text-align: center;
+  animation: slideIn 3s cubic-bezier(0.19,1,0.22,1);
+  transition: color .3s ease, transform .3s ease;
+}
+
+.bottombar p {
+  position: relative;
+  font-size: x-large;
+  font-family: "Baloo 2", system-ui;
+  font-weight: 400;
+  color: white;
+  text-align: center;
+  opacity: 0;
+  animation: fadeIn 4s cubic-bezier(0,0.19,0,1) 1s forwards;
+}
+
+.ab p {
+  font-size: larger;
+}
+
+.bottombar #author {
+  margin: auto 10px 10px auto;
+  font-size: small;
+}
