@@ -17,7 +17,7 @@
 html,body {
   margin: 0;
   background: url("images/Asset 3.png") no-repeat center top;
-  background-size: 100vw 120%; /* lock width to viewport, keep aspect ratio */
+  background-size: 100vw 100%; /* lock width to viewport, keep aspect ratio */
   background-color: black; /* fallback on sides */
   scrollbar-width: none;
   scroll-behavior: smooth;
@@ -64,7 +64,7 @@ li:hover {
   width: 400px;
   height: 400px;
   margin-left: auto;
-  margin-right: 300px;
+  margin-right: 10%;
   border-radius: 100%;
   margin-top: 100px;
   outline: 10px dotted white; 
@@ -105,9 +105,9 @@ li:hover {
 }
 
 
-.sections div#sof, .sections div#exp {
-  margin-left:auto;
-  margin-right: 200px;
+.section {
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 .sections div p {
@@ -243,23 +243,24 @@ h1:hover::after {
 
 /* Floating animation */
 @keyframes float {
-  from { transform: translateY(100vh) rotate(0deg); }
-  to   { transform: translateY(-3vh) rotate(360deg); }
+  from {transform: translateY(100vh) rotate(0deg); }
+  to   {transform: translateY(-5vh) rotate(360deg); }
 }
 
 /*bottom bar*/
 
 .bottombar {
   bottom: 0;
-  width: 100vw;
-  height: 300px;
+  width: 100%;
+  height: auto;
   background-color: rgb(63, 63, 63);
   display: flex;
   justify-content: space-between;
+  margin:0;
 }
 
-.cm {
-  max-width: 20%;
+#cm {
+  width: 50%;
   text-align: center;
 }
 
@@ -269,6 +270,7 @@ h1:hover::after {
   padding-left: 10%;
   padding-top: 20px;
   vertical-align: middle;
+  width: 100%;
 }
 
 .bottombar h1 {
@@ -293,12 +295,15 @@ h1:hover::after {
 
 #ab {
   max-width: 50%;
-  font-size: large;
+}
+
+#ab p {
+  font-size: medium;
 }
 
 .bottombar #author {
   margin: auto 10px 10px auto;
-  width: 10%;
+  width: 600px;
   font-size: large;
 }
 
@@ -316,17 +321,17 @@ h1:hover::after {
 }
 
 .section h1 {
-  text-align: center;
   margin-bottom: 1rem;
+  margin-right:auto;
+  margin-left: 0;
 }
 
 .section p {
-  text-align: left;
   line-height: 1.5;
 }
 
 .section .text {
-  width: 20%;   /* text shrinks if needed */
+  width: 30%;   /* text shrinks if needed */
   text-align: center;
   padding-right: 20px;
   padding-left: 20px;
