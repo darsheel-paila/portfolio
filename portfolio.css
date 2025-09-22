@@ -96,14 +96,14 @@ li:hover {
   transition: color .3s ease, transform .3s ease;
 }
 
-.sections div {   
-  max-width: 20%;
-  margin-top: 300px;
-  margin-bottom: 300px;
-  margin-left: 200px;
+/* Remove this or narrow it down to only text blocks */
+  .sections > div {
+  margin: 300px auto;
+  max-width: 80%;  /* let it actually expand */
   text-align: center;
   position: relative;
 }
+
 
 .sections div#sof, .sections div#exp {
   margin-left:auto;
@@ -237,7 +237,7 @@ h1:hover::after {
 .background-icons i {
   position: fixed;
   font-size: 10px; /* size of icons */
-  color: rgba(255, 255, 255, 0.5); /* faint/ghost-like */
+  color: rgba(255, 255, 255, 1); /* faint/ghost-like */
   animation: float 15s infinite linear;
 }
 
@@ -251,7 +251,7 @@ h1:hover::after {
 
 .bottombar {
   bottom: 0;
-  width: 100%;
+  width: 100vw;
   height: 300px;
   background-color: rgb(63, 63, 63);
   display: flex;
@@ -266,7 +266,7 @@ h1:hover::after {
 
 
 .bottombar div {
-  padding-left: 5%;
+  padding-left: 10%;
   padding-top: 20px;
   vertical-align: middle;
 }
@@ -291,13 +291,69 @@ h1:hover::after {
   animation: fadeIn 4s cubic-bezier(0,0.19,0,1) 1s forwards;
 }
 
-#ab p {
-  max-width: fit-content;
+#ab {
+  max-width: 50%;
   font-size: large;
 }
 
 .bottombar #author {
   margin: auto 10px 10px auto;
-  width: 500px;
+  width: 10%;
   font-size: large;
+}
+
+/* image gallery*/
+
+.section {
+  display: flex;
+  flex-direction: row;   /* text + images side by side */
+  align-items: center;   /* vertically align text/images */
+  justify-content: space-between;
+  margin: 1rem auto;     /* smaller padding */    /* wider section overall */
+  gap: 2rem;             /* spacing between text + images */
+  padding: 0 1rem;       /* reduce left/right padding */
+  height: 500px;
+}
+
+.section h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section p {
+  text-align: left;
+  line-height: 1.5;
+}
+
+.section .text {
+  width: 20%;   /* text shrinks if needed */
+  text-align: center;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.image-container {
+  flex: 1;            /* give images more space */
+  display: flex;
+  height: 500px;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.image {
+  flex: 1;
+  transition: flex 0.4s ease;
+  cursor: pointer;
+  display: flex;
+  overflow: hidden;
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image:hover {
+  flex: 3;
 }
