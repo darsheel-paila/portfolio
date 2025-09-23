@@ -23,12 +23,6 @@ function spawnIcon() {
     icon.style.top = y + "px";
     icon.style.transform = `rotate(${y % 360}deg)`;
 
-    if (y < -100) {
-      // reset when offscreen
-      y = pageHeight + 100;
-      icon.style.left = Math.random() * 100 + "vw"; // new horizontal position
-    }
-
     requestAnimationFrame(floatUp);
   }
 
