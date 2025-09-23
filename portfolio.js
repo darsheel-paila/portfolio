@@ -1,37 +1,77 @@
-const icons = [
-      "fa-cog", "fa-code", "fa-paintbrush", 
-    ];
+const icons = ["fa-cog", "fa-code", "fa-paintbrush"];
+const container = document.querySelector(".background-icons");
+const pageHeight = document.documentElement.scrollHeight;
 
-    const container = document.querySelector(".background-icons");
+function spawnIcon() {
+  const icon = document.createElement("i");
+  icon.className = `fa-solid ${icons[Math.floor(Math.random() * icons.length)]}`;
 
-    for (let i = 0; i < 30; i++) { // change 30 to more or less
-      const icon = document.createElement("i");
-      icon.className = `fa-solid ${icons[Math.floor(Math.random() * icons.length)]}`;
+  // random X and size
+  icon.style.left = Math.random() * 95 + "vw";
+  icon.style.fontSize = 40 + Math.random() * 20 + "px";
+  icon.style.color = "rgba(255, 255, 255, 0.8)";
 
-      // random position, size, speed, and delay
-      icon.style.left = Math.random() * 100 + "vw";
-      icon.style.fontSize = 30 + Math.random() * 10 + "px";
-      icon.style.animationDuration = 30 + Math.random() * 20 + "s";
-      icon.style.animationDelay = Math.random() * 20 + "s";
-      icon.style.color = "rgba(255, 255, 255, 0.5)";
+  // random start Y (some above, some mid, some at bottom)
+  let y = Math.random() * pageHeight;
+  icon.style.top = y + "px";
 
-      container.appendChild(icon);
+  container.appendChild(icon);
+
+  // floating loop
+  function floatUp() {
+    y -= 1; // speed: adjust pixels per frame
+    icon.style.top = y + "px";
+    icon.style.transform = `rotate(${y % 360}deg)`;
+
+    if (y < -100) {
+      // reset when offscreen
+      y = pageHeight + 100;
+      icon.style.left = Math.random() * 100 + "vw"; // new horizontal position
     }
+
+    requestAnimationFrame(floatUp);
+  }
+
+  floatUp();
+}
+
+// spawn multiple icons
+for (let i = 0; i < 30; i++) {
+  spawnIcon();
+}
 
 //image flexbox gallery
 
-    const images = document.querySelectorAll('.image');
-    const titleEl = document.getElement('data-title');
-    const descEl = document.getElement('data-desc');
+  const images = document.querySelectorAll('.image');
 
-    images.forEach(img => {
-      img.addEventListener('mouseenter', () => {
-        titleEl.textContent = img.dataset.title;
-        descEl.textContent = img.dataset.desc;
-      });
+images.forEach(img => {
+  // find the parent section for this image
+  const section = img.closest('.section');
+  
+  // get the text area inside this section
+  const titleEl = section.querySelector('.text h1');
+  const descEl  = section.querySelector('.text p');
 
-      img.addEventListener('mouseleave', () => {
-        titleEl.textContent = "Hover over a project";
-        descEl.textContent = "The description will appear here.";
-      });
-    });
+  // save originals for this section
+  const originalTitle = titleEl.textContent;
+  const originalDesc  = descEl.textContent;
+
+  // update on hover
+  img.addEventListener('mouseenter', () => {
+    titleEl.textContent = img.dataset.title;
+    descEl.textContent  = img.dataset.desc;
+  });
+
+  // restore when leaving
+  img.addEventListener('mouseleave', () => {
+    titleEl.textContent = originalTitle;
+    descEl.textContent  = originalDesc;
+  });
+});
+
+//doc height
+
+    document.documentElement.style.setProperty(
+  '--page-height',
+  `${document.documentElement.scrollHeight}px`
+);
