@@ -335,7 +335,7 @@ h1:hover::after {
 }
 
 .section .text {
-  max-width: 30%;   /* text shrinks if needed */
+  width: 30%;   /* text shrinks if needed */
   text-align: center;
   padding-right: 20px;
   padding-left: 20px;
@@ -364,5 +364,5 @@ h1:hover::after {
 }
 
 .image:hover {
-  flex: 6;
+  flex: 3;
 }
