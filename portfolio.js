@@ -7,7 +7,7 @@ function spawnIcon() {
   icon.className = `fa-solid ${icons[Math.floor(Math.random() * icons.length)]}`;
 
   // random X and size
-  icon.style.left = Math.random() * 95 + "vw";
+  icon.style.left = Math.random() * 100 + "vw";
   icon.style.fontSize = 40 + Math.random() * 20 + "px";
   icon.style.color = "rgba(255, 255, 255, 0.8)";
 
