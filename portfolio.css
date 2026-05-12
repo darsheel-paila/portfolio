@@ -126,7 +126,7 @@ li:hover {
   width: 50%;
   text-align: left;
   opacity: 0;
-   animation: fadeIn 4s cubic-bezier(0,0.19,0,1) 2s forwards;
+   animation: fadeIn 4s cubic-bezier(0,0.19,0,1) 1s forwards;
    margin-left: 20%;
 
 }
@@ -335,7 +335,7 @@ h1:hover::after {
 }
 
 .section .text {
-  width: 30%;   /* text shrinks if needed */
+  width: 20%; /* text shrinks if needed */
   text-align: center;
   padding-right: 20px;
   padding-left: 20px;

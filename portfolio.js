@@ -1,4 +1,4 @@
-const icons = ["fa-cog", "fa-code", "fa-paintbrush"];
+const icons = ["fa-gear", "fa-code", "fa-paintbrush", "fa-palette", "fa-recycle", "fa-microchip"];
 const container = document.querySelector(".background-icons");
 const pageHeight = document.documentElement.scrollHeight;
 
@@ -7,7 +7,7 @@ function spawnIcon() {
   icon.className = `fa-solid ${icons[Math.floor(Math.random() * icons.length)]}`;
 
   // random X and size
-  icon.style.left = Math.random() * 100 + "vw";
+  icon.style.left = Math.random() * 92 + "vw";
   icon.style.fontSize = 40 + Math.random() * 20 + "px";
   icon.style.color = "rgba(255, 255, 255, 0.8)";
 
@@ -26,7 +26,7 @@ function spawnIcon() {
     if (y < -100) {
       // reset when offscreen
       y = pageHeight + 100;
-      icon.style.left = Math.random() * 100 + "vw"; // new horizontal position
+      icon.style.left = Math.random() * 95 + "vw"; // new horizontal position
     }
 
     requestAnimationFrame(floatUp);
