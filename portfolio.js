@@ -1,3 +1,22 @@
+// Always start at the top on refresh; Home scrolls to top as well
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+function scrollToTop(smooth = false) {
+  window.scrollTo({ top: 0, left: 0, behavior: smooth ? "smooth" : "auto" });
+}
+
+scrollToTop(false);
+
+window.addEventListener("pageshow", () => scrollToTop(false));
+
+document.querySelector('a[href="#banner"]')?.addEventListener("click", (e) => {
+  e.preventDefault();
+  scrollToTop(true);
+  history.replaceState(null, "", window.location.pathname + window.location.search);
+});
+
 const icons = ["fa-gear", "fa-code", "fa-paintbrush", "fa-palette", "fa-recycle", "fa-microchip"];
 const container = document.querySelector(".background-icons");
 const pageHeight = document.documentElement.scrollHeight;
@@ -40,38 +59,50 @@ for (let i = 0; i < 30; i++) {
   spawnIcon();
 }
 
-//image flexbox gallery
+// Project mosaic — show detail beside image on highlight
+const projects = document.querySelectorAll(".project");
+const detailPanel = document.querySelector(".project-detail");
+const detailEmpty = document.querySelector(".project-detail-empty");
+const detailContent = document.querySelector(".project-detail-content");
+const detailImg = document.querySelector(".project-detail-img");
+const detailTitle = document.querySelector(".project-detail-title");
+const detailDesc = document.querySelector(".project-detail-desc");
 
-  const images = document.querySelectorAll('.image');
+function showProject(project) {
+  const img = project.querySelector("img");
+  if (!img) return;
 
-images.forEach(img => {
-  // find the parent section for this image
-  const section = img.closest('.section');
-  
-  // get the text area inside this section
-  const titleEl = section.querySelector('.text h1');
-  const descEl  = section.querySelector('.text p');
+  projects.forEach((p) => p.classList.remove("is-active"));
+  project.classList.add("is-active");
 
-  // save originals for this section
-  const originalTitle = titleEl.textContent;
-  const originalDesc  = descEl.textContent;
+  detailPanel.classList.add("is-filled");
+  detailEmpty.hidden = true;
+  detailContent.hidden = false;
 
-  // update on hover
-  img.addEventListener('mouseenter', () => {
-    titleEl.textContent = img.dataset.title;
-    descEl.textContent  = img.dataset.desc;
-  });
+  detailImg.src = img.src;
+  detailImg.alt = img.alt;
+  detailTitle.textContent = project.dataset.title || img.alt;
+  detailDesc.textContent = project.dataset.desc || "";
+}
 
-  // restore when leaving
-  img.addEventListener('mouseleave', () => {
-    titleEl.textContent = originalTitle;
-    descEl.textContent  = originalDesc;
-  });
+function clearProject() {
+  projects.forEach((p) => p.classList.remove("is-active"));
+  detailPanel.classList.remove("is-filled");
+  detailEmpty.hidden = false;
+  detailContent.hidden = true;
+}
+
+projects.forEach((project) => {
+  project.addEventListener("mouseenter", () => showProject(project));
+  project.addEventListener("focusin", () => showProject(project));
+  project.addEventListener("click", () => showProject(project));
+  project.setAttribute("tabindex", "0");
 });
 
-//doc height
+document.querySelector(".projects-workspace")?.addEventListener("mouseleave", clearProject);
 
-    document.documentElement.style.setProperty(
-  '--page-height',
+//doc height
+document.documentElement.style.setProperty(
+  "--page-height",
   `${document.documentElement.scrollHeight}px`
 );
