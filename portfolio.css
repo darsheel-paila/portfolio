@@ -427,27 +427,6 @@ h1:hover::after {
   margin: 0;
 }
 
-@media (min-width: 1100px) {
-  .project-detail-content {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 1.5rem;
-  }
-
-  .project-detail-media {
-    width: 48%;
-    max-width: 220px;
-  }
-
-  .project-detail-img {
-    max-height: none;
-  }
-
-  .project-detail-text {
-    width: 52%;
-    padding-top: 0.25rem;
-  }
-}
 
 /* Bottom bar */
 .bottombar {
