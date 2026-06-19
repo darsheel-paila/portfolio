@@ -143,12 +143,12 @@ document.getElementById("message-form")?.addEventListener("submit", async (e) =>
       throw new Error(data.message || "Unable to send message.");
     }
 
-    statusEl.textContent = "Message sent — I'll get back to you soon.";
+    statusEl.textContent = "Message sent! I'll get back to you soon :D";
     statusEl.className = "form-status form-status--success";
     form.reset();
   } catch {
     statusEl.textContent =
-      "Something went wrong. Try emailing darsheelpaila@gmail.com directly.";
+      "Something went wrong. Try emailing me directly at darsheelpaila@gmail.com.";
     statusEl.className = "form-status form-status--error";
   } finally {
     submitBtn.disabled = false;
