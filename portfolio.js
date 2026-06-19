@@ -19,33 +19,36 @@ document.querySelector('a[href="#banner"]')?.addEventListener("click", (e) => {
 
 const icons = ["fa-gear", "fa-code", "fa-paintbrush", "fa-palette", "fa-recycle", "fa-microchip"];
 const container = document.querySelector(".background-icons");
-const pageHeight = document.documentElement.scrollHeight;
+
+function viewportHeight() {
+  return window.innerHeight;
+}
 
 function spawnIcon() {
   const icon = document.createElement("i");
   icon.className = `fa-solid ${icons[Math.floor(Math.random() * icons.length)]}`;
 
-  // random X and size
   icon.style.left = Math.random() * 92 + "vw";
   icon.style.fontSize = 40 + Math.random() * 20 + "px";
   icon.style.color = "rgba(255, 255, 255, 0.8)";
 
-  // random start Y (some above, some mid, some at bottom)
-  let y = Math.random() * pageHeight;
-  icon.style.top = y + "px";
+  let y = Math.random() * viewportHeight();
 
   container.appendChild(icon);
 
-  // floating loop
+  function setPosition() {
+    icon.style.transform = `translateY(${y}px) rotate(${y % 360}deg)`;
+  }
+
+  setPosition();
+
   function floatUp() {
-    y -= 1; // speed: adjust pixels per frame
-    icon.style.top = y + "px";
-    icon.style.transform = `rotate(${y % 360}deg)`;
+    y -= 1;
+    setPosition();
 
     if (y < -100) {
-      // reset when offscreen
-      y = pageHeight + 100;
-      icon.style.left = Math.random() * 95 + "vw"; // new horizontal position
+      y = viewportHeight() + 50;
+      icon.style.left = Math.random() * 92 + "vw";
     }
 
     requestAnimationFrame(floatUp);
@@ -54,7 +57,6 @@ function spawnIcon() {
   floatUp();
 }
 
-// spawn multiple icons
 for (let i = 0; i < 30; i++) {
   spawnIcon();
 }
@@ -227,9 +229,3 @@ document
     });
     link.addEventListener("blur", scheduleAccentReset);
   });
-
-//doc height
-document.documentElement.style.setProperty(
-  "--page-height",
-  `${document.documentElement.scrollHeight}px`
-);
