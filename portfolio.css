@@ -16,6 +16,7 @@
 
 html {
   transition: --accent var(--link-hover-ms) ease;
+  background-color: black;
 }
 
 /* Animations */
@@ -39,13 +40,41 @@ html {
 /* Layout */
 html, body {
   margin: 0;
-  background: url("images/Asset 3.png") no-repeat center top;
-  background-size: 100vw 100%;
-  background-color: black;
+  min-height: 100%;
   scrollbar-width: none;
   scroll-behavior: smooth;
   font-family: var(--font);
-  overflow-x: hidden;
+}
+
+body {
+  position: relative;
+  background: transparent;
+}
+
+#page-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#page-backdrop img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+#bg-icon-field {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
 
 #banner,
@@ -326,21 +355,63 @@ h1:hover::after {
   width: 150px;
 }
 
-/* Floating icons — fixed to viewport, behind content/footer */
-.background-icons {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
+/* Bouncing icons — document space; scroll with the page */
+#bg-icon-field .bg-icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
   pointer-events: none;
-  z-index: 0;
+  opacity: 0.8;
+  transform-origin: center center;
+  will-change: top, left, transform;
+  transition: opacity 0.45s ease, filter 0.45s ease;
 }
 
-.background-icons i {
+/* Time freeze — mosaic hover pauses background motion */
+html.time-freeze .bg-icon {
+  opacity: 0.28;
+  filter: blur(3px) saturate(0.35) brightness(0.85);
+}
+
+html.time-freeze .projects-mosaic .project:not(.is-active) {
+  opacity: 0.35;
+  filter: saturate(0.5) brightness(0.75);
+}
+
+html.time-freeze .project.is-active {
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 4px rgba(255, 255, 255, 0.15),
+    0 12px 40px rgba(0, 0, 0, 0.55);
+  filter: saturate(1.08) brightness(1.05);
+}
+
+html.time-freeze .project-detail {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2), 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+html.time-freeze .projects-workspace::after {
+  content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  will-change: transform;
-  opacity: 0.8;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 35%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+  opacity: 1;
+  transition: opacity 0.45s ease;
+}
+
+html.time-freeze #banner,
+html.time-freeze #navbar,
+html.time-freeze .bottombar {
+  filter: saturate(0.65) brightness(0.8);
+  transition: filter 0.45s ease;
 }
 
 /* Projects — mosaic + side detail */
@@ -367,6 +438,8 @@ h1:hover::after {
   grid-template-columns: minmax(0, 1fr) minmax(300px, 34%);
   gap: clamp(1.25rem, 2.5vw, 2.5rem);
   align-items: start;
+  position: relative;
+  z-index: 1;
 }
 
 /* Column masonry — natural aspect ratios, tight mosaic */
@@ -391,7 +464,7 @@ h1:hover::after {
   line-height: 0;
   opacity: 0;
   animation: fadeIn 4s cubic-bezier(0,0.19,0,1) 1s forwards;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.45s ease, filter 0.45s ease;
 }
 
 .project img {
@@ -428,6 +501,7 @@ h1:hover::after {
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
   box-sizing: border-box;
+  transition: box-shadow 0.45s ease;
 }
 
 .project-detail-empty {

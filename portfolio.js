@@ -18,48 +18,116 @@ document.querySelector('a[href="#banner"]')?.addEventListener("click", (e) => {
 });
 
 const icons = ["fa-gear", "fa-code", "fa-paintbrush", "fa-palette", "fa-recycle", "fa-microchip"];
-const container = document.querySelector(".background-icons");
 
-function viewportHeight() {
-  return window.innerHeight;
+let sceneFrozen = false;
+
+function setTimeFreeze(active) {
+  sceneFrozen = active;
+  document.documentElement.classList.toggle("time-freeze", active);
+}
+
+const iconField = document.createElement("div");
+iconField.id = "bg-icon-field";
+iconField.setAttribute("aria-hidden", "true");
+document.getElementById("page-backdrop")?.insertAdjacentElement("afterend", iconField);
+
+const pageBackdrop = document.getElementById("page-backdrop");
+
+function syncPageLayers() {
+  const footer = document.querySelector(".bottombar");
+  const height = footer
+    ? footer.offsetTop + footer.offsetHeight
+    : document.documentElement.scrollHeight;
+  const h = `${height}px`;
+  iconField.style.height = h;
+  if (pageBackdrop) pageBackdrop.style.height = h;
+}
+
+function documentSize() {
+  syncPageLayers();
+  return {
+    width: iconField.clientWidth || window.innerWidth,
+    height: iconField.clientHeight || window.innerHeight,
+  };
 }
 
 function spawnIcon() {
   const icon = document.createElement("i");
-  icon.className = `fa-solid ${icons[Math.floor(Math.random() * icons.length)]}`;
+  icon.className = `fa-solid ${icons[Math.floor(Math.random() * icons.length)]} bg-icon`;
 
-  icon.style.left = Math.random() * 92 + "vw";
-  icon.style.fontSize = 40 + Math.random() * 20 + "px";
+  const size = 40 + Math.random() * 20;
+  icon.style.fontSize = `${size}px`;
   icon.style.color = "rgba(255, 255, 255, 0.8)";
 
-  let y = Math.random() * viewportHeight();
+  iconField.appendChild(icon);
 
-  container.appendChild(icon);
+  const iconSize = size * 1.15;
+  const { width, height } = documentSize();
+  const state = {
+    x: Math.random() * Math.max(width - iconSize, 0),
+    y: Math.random() * Math.max(height - iconSize, 0),
+    vx: (Math.random() > 0.5 ? 1 : -1) * (0.45 + Math.random() * 0.75),
+    vy: (Math.random() > 0.5 ? 1 : -1) * (0.45 + Math.random() * 0.75),
+    rotation: Math.random() * 360,
+    spin: (Math.random() > 0.5 ? 1 : -1) * (0.25 + Math.random() * 0.45),
+    iconSize,
+  };
+
+  function bounds() {
+    const { width, height } = documentSize();
+    return {
+      maxX: Math.max(width - state.iconSize, 0),
+      maxY: Math.max(height - state.iconSize, 0),
+    };
+  }
 
   function setPosition() {
-    icon.style.transform = `translateY(${y}px) rotate(${y % 360}deg)`;
+    icon.style.left = `${state.x}px`;
+    icon.style.top = `${state.y}px`;
+    icon.style.transform = `rotate(${state.rotation}deg)`;
+  }
+
+  function bounce() {
+    if (!sceneFrozen) {
+      const { maxX, maxY } = bounds();
+
+      state.x += state.vx;
+      state.y += state.vy;
+      state.rotation += state.spin;
+
+      if (state.x <= 0) {
+        state.x = 0;
+        state.vx = Math.abs(state.vx);
+      } else if (state.x >= maxX) {
+        state.x = maxX;
+        state.vx = -Math.abs(state.vx);
+      }
+
+      if (state.y <= 0) {
+        state.y = 0;
+        state.vy = Math.abs(state.vy);
+      } else if (state.y >= maxY) {
+        state.y = maxY;
+        state.vy = -Math.abs(state.vy);
+      }
+
+      setPosition();
+    }
+
+    requestAnimationFrame(bounce);
   }
 
   setPosition();
-
-  function floatUp() {
-    y -= 1;
-    setPosition();
-
-    if (y < -100) {
-      y = viewportHeight() + 50;
-      icon.style.left = Math.random() * 92 + "vw";
-    }
-
-    requestAnimationFrame(floatUp);
-  }
-
-  floatUp();
+  bounce();
 }
 
+syncPageLayers();
 for (let i = 0; i < 30; i++) {
   spawnIcon();
 }
+
+window.addEventListener("resize", syncPageLayers);
+window.addEventListener("load", syncPageLayers);
 
 // Project mosaic — show detail beside image on highlight
 const projects = document.querySelectorAll(".project");
@@ -85,6 +153,7 @@ function showProject(project) {
   detailImg.alt = img.alt;
   detailTitle.textContent = project.dataset.title || img.alt;
   detailDesc.textContent = project.dataset.desc || "";
+  setTimeFreeze(true);
 }
 
 function clearProject() {
@@ -92,6 +161,7 @@ function clearProject() {
   detailPanel.classList.remove("is-filled");
   detailEmpty.hidden = false;
   detailContent.hidden = true;
+  setTimeFreeze(false);
 }
 
 projects.forEach((project) => {
