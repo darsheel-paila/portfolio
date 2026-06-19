@@ -101,6 +101,133 @@ projects.forEach((project) => {
 
 document.querySelector(".projects-workspace")?.addEventListener("mouseleave", clearProject);
 
+document.getElementById("message-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const statusEl = document.getElementById("form-status");
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  if (form._honey.value.trim()) {
+    return;
+  }
+
+  const name = form.name.value.trim();
+  const payload = {
+    name,
+    email: form.email.value.trim(),
+    phone: form.phone.value.trim(),
+    message: form.message.value.trim(),
+    _subject: `Portfolio inquiry from ${name}`,
+    _template: "table",
+    _captcha: "false",
+  };
+
+  submitBtn.disabled = true;
+  statusEl.textContent = "Sending…";
+  statusEl.className = "form-status";
+
+  try {
+    const response = await fetch("https://formsubmit.co/ajax/darsheelpaila@gmail.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Unable to send message.");
+    }
+
+    statusEl.textContent = "Message sent — I'll get back to you soon.";
+    statusEl.className = "form-status form-status--success";
+    form.reset();
+  } catch {
+    statusEl.textContent =
+      "Something went wrong. Try emailing darsheelpaila@gmail.com directly.";
+    statusEl.className = "form-status form-status--error";
+  } finally {
+    submitBtn.disabled = false;
+  }
+});
+
+// Match hover accent to background gradient by vertical position
+const ACCENT_DEFAULT = "rgb(235, 95, 45)";
+const ACCENT_TRANSITION_MS = 300;
+let accentResetTimer = null;
+const BG_ACCENT_STOPS = [
+  { t: 0, r: 186, g: 72, b: 168 },
+  { t: 0.28, r: 215, g: 55, b: 95 },
+  { t: 0.52, r: 235, g: 95, b: 45 },
+  { t: 0.76, r: 248, g: 150, b: 38 },
+  { t: 1, r: 255, g: 205, b: 55 },
+];
+
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
+function accentAtRatio(ratio) {
+  const clamped = Math.min(1, Math.max(0, ratio));
+
+  for (let i = 0; i < BG_ACCENT_STOPS.length - 1; i++) {
+    const start = BG_ACCENT_STOPS[i];
+    const end = BG_ACCENT_STOPS[i + 1];
+
+    if (clamped >= start.t && clamped <= end.t) {
+      const local = (clamped - start.t) / (end.t - start.t);
+      const r = Math.round(lerp(start.r, end.r, local));
+      const g = Math.round(lerp(start.g, end.g, local));
+      const b = Math.round(lerp(start.b, end.b, local));
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+  }
+
+  const last = BG_ACCENT_STOPS[BG_ACCENT_STOPS.length - 1];
+  return `rgb(${last.r}, ${last.g}, ${last.b})`;
+}
+
+function verticalRatioForElement(el) {
+  const rect = el.getBoundingClientRect();
+  const centerY = rect.top + rect.height / 2 + window.scrollY;
+  const pageHeight = document.documentElement.scrollHeight || window.innerHeight;
+  return centerY / pageHeight;
+}
+
+function setAccentFromElement(el) {
+  document.documentElement.style.setProperty("--accent", accentAtRatio(verticalRatioForElement(el)));
+}
+
+function scheduleAccentReset() {
+  clearTimeout(accentResetTimer);
+  accentResetTimer = setTimeout(() => {
+    document.documentElement.style.setProperty("--accent", ACCENT_DEFAULT);
+  }, ACCENT_TRANSITION_MS);
+}
+
+function cancelAccentReset() {
+  clearTimeout(accentResetTimer);
+}
+
+document
+  .querySelectorAll(".nav-left a, .contact-links a, .bottombar-col a, .nav-right li a")
+  .forEach((link) => {
+    link.addEventListener("mouseenter", () => {
+      cancelAccentReset();
+      setAccentFromElement(link);
+    });
+    link.addEventListener("mouseleave", scheduleAccentReset);
+    link.addEventListener("focus", () => {
+      cancelAccentReset();
+      setAccentFromElement(link);
+    });
+    link.addEventListener("blur", scheduleAccentReset);
+  });
+
 //doc height
 document.documentElement.style.setProperty(
   "--page-height",

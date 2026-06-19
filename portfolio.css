@@ -1,9 +1,21 @@
 :root {
   --font: "Plus Jakarta Sans", system-ui, sans-serif;
-  --accent: rgb(251, 86, 99);
+  --accent: rgb(235, 95, 45);
+  --accent-default: rgb(235, 95, 45);
   --glass-bg: rgba(12, 12, 12, 0.55);
   --glass-border: rgba(255, 255, 255, 0.12);
   --glass-blur: blur(10px);
+  --link-hover-ms: 0.3s;
+}
+
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgb(235, 95, 45);
+}
+
+html {
+  transition: --accent var(--link-hover-ms) ease;
 }
 
 /* Animations */
@@ -60,6 +72,67 @@ li:hover {
   cursor: pointer;
 }
 
+#navbar li:hover,
+.bottombar li:hover {
+  transform: none;
+  color: white;
+}
+
+#navbar li#logo,
+#navbar li#logo:hover {
+  padding-top: 0;
+  transform: translateY(10px);
+  cursor: default;
+  color: white;
+}
+
+#navbar li#logo img {
+  pointer-events: none;
+}
+
+/* Text links only: slight expand + accent underline */
+.nav-left a,
+.contact-links a,
+.bottombar-col a {
+  position: relative;
+  color: rgba(255, 255, 255, 0.95) !important;
+  text-decoration: none;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.nav-left a::after,
+.contact-links a::after,
+.bottombar-col a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width var(--link-hover-ms) ease;
+}
+
+.nav-left a:hover,
+.nav-left a:focus-visible,
+.contact-links a:hover,
+.contact-links a:focus-visible,
+.bottombar-col a:hover,
+.bottombar-col a:focus-visible {
+  transform: scale(1.08);
+  color: rgba(255, 255, 255, 0.95) !important;
+  cursor: pointer;
+}
+
+.nav-left a:hover::after,
+.nav-left a:focus-visible::after,
+.contact-links a:hover::after,
+.contact-links a:focus-visible::after,
+.bottombar-col a:hover::after,
+.bottombar-col a:focus-visible::after {
+  width: 100%;
+}
+
 /* Banner */
 #banner {
   width: 100%;
@@ -80,6 +153,7 @@ li:hover {
   border-radius: 12px;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
   box-sizing: border-box;
   text-align: left;
@@ -189,12 +263,11 @@ li:hover {
 }
 
 .nav-left a {
-  color: white !important;
   font-family: var(--font);
   font-weight: 500;
   font-size: 1rem;
   letter-spacing: 0.03em;
-  text-decoration: none;
+  display: inline-block;
 }
 
 .nav-right {
@@ -208,24 +281,20 @@ li:hover {
 }
 
 .nav-right li a {
-  color: white !important;
+  color: rgba(255, 255, 255, 0.95) !important;
   font-weight: 500;
   font-size: 1.1rem;
   display: flex;
   align-items: center;
-  transition: color .3s ease, transform .3s ease;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-#navbar li a:hover {
+.nav-right li a:hover,
+.nav-right li a:focus-visible {
   color: var(--accent) !important;
-  transform: scale(1.1);
+  transform: none;
   cursor: pointer;
-}
-
-#logo {
-  padding-top: 0px;
-  transform: translateY(10px);
 }
 
 h1:hover {
@@ -360,6 +429,7 @@ h1:hover::after {
   border-radius: 12px;
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
   box-sizing: border-box;
 }
@@ -431,63 +501,240 @@ h1:hover::after {
 /* Bottom bar */
 .bottombar {
   width: 100%;
+  margin-top: 4rem;
+  padding: clamp(1.5rem, 3vw, 2rem) 3% 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-top: 1px solid var(--glass-border);
+}
+
+.bottombar-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: start;
+  max-width: min(1500px, 96vw);
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.bottombar-info {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  text-align: center;
-  padding: 40px 10%;
-  box-sizing: border-box;
-  background-image: linear-gradient(transparent 10%, rgba(4, 4, 4, 0.3) 90%);
+  gap: clamp(1.25rem, 2vw, 1.75rem);
+  min-width: 0;
 }
 
-.bottombar div {
-  max-width: 800px;
+.bottombar-contact {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2.5vw, 2rem);
+  align-items: start;
 }
 
-.bottombar h1 {
+.contact-block {
+  min-width: 0;
+}
+
+.contact-block h3 {
   font-family: var(--font);
   font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  color: white;
+  margin: 0 0 0.6rem;
+}
+
+.contact-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  opacity: 1;
+  animation: none;
+}
+
+.contact-links li {
+  display: block;
+  padding: 0;
+  margin: 0 0 0.4rem;
+  font-size: 0.92rem;
+}
+
+.contact-links li:hover {
+  transform: none;
+}
+
+.contact-links a {
+  display: inline-block;
+}
+
+.contact-links li:last-child {
+  margin-bottom: 0;
+}
+
+.bottombar-inquiries {
+  min-width: 0;
+  padding-left: clamp(1rem, 2vw, 1.5rem);
+  border-left: 1px solid var(--glass-border);
+}
+
+.bottombar-inquiries h2 {
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 1.25rem;
   letter-spacing: -0.02em;
   color: white;
-  margin-bottom: 20px;
-  animation: slideIn 3s cubic-bezier(0.19,1,0.22,1);
-  transition: color .3s ease, transform .3s ease;
+  margin: 0 0 0.35rem;
 }
 
-.bottombar p {
-  font-size: 1rem;
-  line-height: 1.65;
+.inquiries-subtitle {
   font-family: var(--font);
-  font-weight: 400;
-  color: white;
-  opacity: 0;
-  animation: fadeIn 4s cubic-bezier(0,0.19,0,1) 1s forwards;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0 0 1rem;
 }
 
-#author {
-  margin-top: 40px;
-  font-size: 0.95rem;
-  opacity: 0.7;
-}
-
-#ab {
+.message-form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  max-width: 1000px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+}
+
+.bottombar-col {
+  min-width: 0;
   text-align: left;
 }
 
-#ab h1 {
-  grid-column: 1 / -1;
-  text-align: center;
-  margin-bottom: 1rem;
+.bottombar-col h2 {
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  color: white;
+  margin: 0 0 0.85rem;
 }
 
-#ab p {
+.bottombar-col p {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  font-family: var(--font);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 0.75rem;
+}
+
+.bottombar-col p:last-child {
+  margin-bottom: 0;
+}
+
+.bottombar-col a {
+  display: inline-block;
+}
+
+.message-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.message-form input,
+.message-form textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0, 0, 0, 0.35);
+  color: white;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.message-form input::placeholder,
+.message-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.message-form input:focus,
+.message-form textarea:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.35);
+  caret-color: white;
+}
+
+.message-form button {
+  align-self: flex-start;
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.message-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.message-form button:hover:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.03);
+}
+
+.form-status {
+  font-family: var(--font);
+  font-size: 0.88rem;
   margin: 0;
+  min-height: 1.25rem;
+}
+
+.form-status--success {
+  color: rgb(130, 220, 150);
+}
+
+.form-status--error {
+  color: rgb(255, 130, 130);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.form-honey {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#author {
+  margin: 1.25rem 0 0;
+  font-size: 0.9rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 @media (max-width: 900px) {
@@ -524,5 +771,30 @@ h1:hover::after {
 
   .projects-mosaic {
     columns: 2;
+  }
+
+  .bottombar-inner {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .bottombar-inquiries {
+    padding-left: 0;
+    padding-top: 1.5rem;
+    border-left: none;
+    border-top: 1px solid var(--glass-border);
+  }
+
+  .bottombar-contact {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .message-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .message-form button {
+    width: 100%;
   }
 }

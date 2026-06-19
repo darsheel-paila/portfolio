@@ -36,7 +36,7 @@
       <div class="banner-panel">
         <div class="lefttext">
           <h2>what's up!</h2> 
-          <p>I'm <strong>Darsheel Paila</strong>, a sophomore at the <strong>School of Science and Engineering</strong>. I build where mechanical engineering, design, and sustainability meet: from myoelectric prosthetics and competition robotics to kinetic sculpture and CFD-driven clean energy.</p>
+          <p>I'm <strong>Darsheel Paila</strong>, a sophomore at the <strong>School of Science and Engineering</strong>. I love building prototypes, improving my technical skillset, and researching how mechanical engineering and design integrate to produce sustainable and community-focused solutions.</p>
         </div>
         <div class="profile-pic-wrap">
           <div class="profile-ring" aria-hidden="true"></div>
@@ -51,6 +51,9 @@
       <h2 class="projects-heading">projects</h2>
       <div class="projects-workspace">
         <div class="projects-mosaic">
+          <article class="project" data-title="O.A.S.I.S (in progress)" data-desc="A bionic manta ray I am currently designing to localize dispersion of alkaline solutions to remedy the consequences of oceanic carbon sequestration without producing dangerous concentrated/dead zones of alkalinity.">
+            <img src="images/OASIS.png" alt="O.A.S.I.S">
+          </article>
           <article class="project" data-title="Scavenger (in progress)" data-desc="A cheap aquatic trash-collecting robot I am currently designing for the LitterLoot initiative to scalably reduce plastics in lakes, ponds, and similar-sized water bodies. Planning to complete the design with servo-powered trash-funneling nets, guardrails, IP68 propellers, a microcontroller, FPV camera, IR feedback system, an IMU, and a PSU. The robot is composed of PVC and Coroplast.">
             <img src="images/scavenger.png" alt="Scavenger">
           </article>
@@ -92,23 +95,61 @@
       </div>
     </section>
 
-    <div class="bottombar" id="1">
-        <div id="ab">
-            <h1>About</h1>
-            <p>If I were to describe myself in one word, it would be <s>lazy</s> <strong>efficient</strong>.
-            For as long as I can remember, I tried to make things as efficient as possible 
-            (Ironic, considering I coded this from scratch forgetting vibe coding was a thing). </p>
-            <p>As my interests came and left, two main things stuck with me: <strong>design</strong>, which gave me the freedom of expression;
-            and <strong>engineering</strong>, the study of <s>laziness</s> <strong>efficiency</strong>.
-            Through this portfolio, with pride, I display the skills I have developed over the years. Hope you like it!</p>
+    <footer class="bottombar">
+      <div class="bottombar-inner">
+        <div class="bottombar-info">
+          <section id="ab" class="bottombar-col">
+            <h2>About</h2>
+            <p>If I had to describe myself in one word, it would be <s>efficient</s> <strong>driven</strong>.
+            I care deeply about the solutions I chase, even as I learn how to get there the smart way.</p>
+            <p>As my interests shift between topics like sustainable energy, materials science, and robotics, two things never leave: <strong>design/art</strong>, because I genuinely love creating,
+            and <strong>engineering</strong>, where I turn abstract ideas into something physical - usually after taking the long road first.
+            Always down to chat about interesting topics and random ideas!</p>
+          </section>
+
+          <section id="cm" class="bottombar-col bottombar-contact">
+            <div class="contact-block">
+              <h3>Social Media</h3>
+              <ul class="contact-links">
+                <li><a href="https://github.com/darsheel-paila" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><a href="https://www.instagram.com/darsheelpaila" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                <li><a href="https://www.linkedin.com/in/darsheel-paila-9b2893376/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+              </ul>
+            </div>
+            <div class="contact-block">
+              <h3>Email</h3>
+              <p><a href="mailto:darsheelpaila@gmail.com">darsheelpaila@gmail.com</a></p>
+            </div>
+            <div class="contact-block">
+              <h3>Contact</h3>
+              <p><a href="tel:9728970257">972-897-0257</a></p>
+            </div>
+          </section>
         </div>
-        <div id="cm">
-            <h1>Contact</h1>
-            <p>972-897-0257</p><p>darsheelpaila@gmail.com</p>
-        </div>
-        
-        <p id="author">@Darsheel Paila 2026</p>  
-    </div> 
+
+        <section id="message" class="bottombar-inquiries">
+          <h2>Inquiries?</h2>
+          <p class="inquiries-subtitle">I'm ready to help with any questions you have!</p>
+          <form id="message-form" class="message-form">
+            <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <div class="message-form-row">
+              <label class="sr-only" for="sender-name">Your name</label>
+              <input type="text" id="sender-name" name="name" placeholder="Name" required autocomplete="name">
+              <label class="sr-only" for="sender-phone">Your phone number</label>
+              <input type="tel" id="sender-phone" name="phone" placeholder="Phone number" autocomplete="tel">
+              <label class="sr-only" for="sender-email">Your email</label>
+              <input type="email" id="sender-email" name="email" placeholder="Email address" required autocomplete="email">
+            </div>
+            <label class="sr-only" for="sender-message">Your message</label>
+            <textarea id="sender-message" name="message" placeholder="Your message" rows="4" required></textarea>
+            <button type="submit">Submit</button>
+            <p class="form-status" id="form-status" aria-live="polite"></p>
+          </form>
+        </section>
+      </div>
+
+      <p id="author">@Darsheel Paila 2026</p>
+    </footer>
     <script src="portfolio.js"></script>
   </body>
 </html>
