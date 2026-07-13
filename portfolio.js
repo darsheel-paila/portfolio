@@ -7,24 +7,27 @@ function scrollToTop(smooth = false) {
   window.scrollTo({ top: 0, left: 0, behavior: smooth ? "smooth" : "auto" });
 }
 
-scrollToTop(false);
+const pageType = document.body.dataset.page || "home";
 
-window.addEventListener("pageshow", () => scrollToTop(false));
+injectPageBackdrop();
+injectNavbar(pageType);
 
-document.querySelector('a[href="#banner"]')?.addEventListener("click", (e) => {
-  e.preventDefault();
-  scrollToTop(true);
-  history.replaceState(null, "", window.location.pathname + window.location.search);
-});
+if (pageType === "home") {
+  scrollToTop(false);
+  window.addEventListener("pageshow", () => scrollToTop(false));
+
+  document.querySelector('a[href="#banner"], a[href="index.html#banner"]')?.addEventListener("click", (e) => {
+    if (window.location.pathname.endsWith("index.html") || window.location.pathname.endsWith("/")) {
+      e.preventDefault();
+      scrollToTop(true);
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+  });
+} else {
+  scrollToTop(false);
+}
 
 const icons = ["fa-gear", "fa-code", "fa-paintbrush", "fa-palette", "fa-recycle", "fa-microchip"];
-
-let sceneFrozen = false;
-
-function setTimeFreeze(active) {
-  sceneFrozen = active;
-  document.documentElement.classList.toggle("time-freeze", active);
-}
 
 const iconField = document.createElement("div");
 iconField.id = "bg-icon-field";
@@ -34,10 +37,11 @@ document.getElementById("page-backdrop")?.insertAdjacentElement("afterend", icon
 const pageBackdrop = document.getElementById("page-backdrop");
 
 function syncPageLayers() {
-  const footer = document.querySelector(".bottombar");
-  const height = footer
+  const footer = document.querySelector(".bottombar") || document.querySelector(".page-author");
+  const contentHeight = footer
     ? footer.offsetTop + footer.offsetHeight
     : document.documentElement.scrollHeight;
+  const height = Math.max(contentHeight, window.innerHeight);
   const h = `${height}px`;
   iconField.style.height = h;
   if (pageBackdrop) pageBackdrop.style.height = h;
@@ -88,32 +92,29 @@ function spawnIcon() {
   }
 
   function bounce() {
-    if (!sceneFrozen) {
-      const { maxX, maxY } = bounds();
+    const { maxX, maxY } = bounds();
 
-      state.x += state.vx;
-      state.y += state.vy;
-      state.rotation += state.spin;
+    state.x += state.vx;
+    state.y += state.vy;
+    state.rotation += state.spin;
 
-      if (state.x <= 0) {
-        state.x = 0;
-        state.vx = Math.abs(state.vx);
-      } else if (state.x >= maxX) {
-        state.x = maxX;
-        state.vx = -Math.abs(state.vx);
-      }
-
-      if (state.y <= 0) {
-        state.y = 0;
-        state.vy = Math.abs(state.vy);
-      } else if (state.y >= maxY) {
-        state.y = maxY;
-        state.vy = -Math.abs(state.vy);
-      }
-
-      setPosition();
+    if (state.x <= 0) {
+      state.x = 0;
+      state.vx = Math.abs(state.vx);
+    } else if (state.x >= maxX) {
+      state.x = maxX;
+      state.vx = -Math.abs(state.vx);
     }
 
+    if (state.y <= 0) {
+      state.y = 0;
+      state.vy = Math.abs(state.vy);
+    } else if (state.y >= maxY) {
+      state.y = maxY;
+      state.vy = -Math.abs(state.vy);
+    }
+
+    setPosition();
     requestAnimationFrame(bounce);
   }
 
@@ -128,50 +129,6 @@ for (let i = 0; i < 30; i++) {
 
 window.addEventListener("resize", syncPageLayers);
 window.addEventListener("load", syncPageLayers);
-
-// Project mosaic — show detail beside image on highlight
-const projects = document.querySelectorAll(".project");
-const detailPanel = document.querySelector(".project-detail");
-const detailEmpty = document.querySelector(".project-detail-empty");
-const detailContent = document.querySelector(".project-detail-content");
-const detailImg = document.querySelector(".project-detail-img");
-const detailTitle = document.querySelector(".project-detail-title");
-const detailDesc = document.querySelector(".project-detail-desc");
-
-function showProject(project) {
-  const img = project.querySelector("img");
-  if (!img) return;
-
-  projects.forEach((p) => p.classList.remove("is-active"));
-  project.classList.add("is-active");
-
-  detailPanel.classList.add("is-filled");
-  detailEmpty.hidden = true;
-  detailContent.hidden = false;
-
-  detailImg.src = img.src;
-  detailImg.alt = img.alt;
-  detailTitle.textContent = project.dataset.title || img.alt;
-  detailDesc.textContent = project.dataset.desc || "";
-  setTimeFreeze(true);
-}
-
-function clearProject() {
-  projects.forEach((p) => p.classList.remove("is-active"));
-  detailPanel.classList.remove("is-filled");
-  detailEmpty.hidden = false;
-  detailContent.hidden = true;
-  setTimeFreeze(false);
-}
-
-projects.forEach((project) => {
-  project.addEventListener("mouseenter", () => showProject(project));
-  project.addEventListener("focusin", () => showProject(project));
-  project.addEventListener("click", () => showProject(project));
-  project.setAttribute("tabindex", "0");
-});
-
-document.querySelector(".projects-workspace")?.addEventListener("mouseleave", clearProject);
 
 document.getElementById("message-form")?.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -286,7 +243,7 @@ function cancelAccentReset() {
 }
 
 document
-  .querySelectorAll(".nav-left a, .contact-links a, .bottombar-col a, .nav-right li a")
+  .querySelectorAll(".nav-left a, .contact-links a, .bottombar-col a, .nav-right li a, .project-arrow, .project-title-btn, .project-card-link")
   .forEach((link) => {
     link.addEventListener("mouseenter", () => {
       cancelAccentReset();
@@ -299,3 +256,16 @@ document
     });
     link.addEventListener("blur", scheduleAccentReset);
   });
+
+document.body.addEventListener("mouseover", (e) => {
+  const link = e.target.closest(".project-dropdown a");
+  if (!link) return;
+  cancelAccentReset();
+  setAccentFromElement(link);
+});
+
+document.body.addEventListener("mouseout", (e) => {
+  if (e.target.closest(".project-dropdown a")) {
+    scheduleAccentReset();
+  }
+});

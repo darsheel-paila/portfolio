@@ -6,92 +6,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="portfolio.css?v=14">
+    <link rel="stylesheet" href="portfolio.css?v=31">
     <link rel="icon" type="image/svg+xml" href="images/Asset 1.svg">
   </head>
 
-  <body>
-    <div id="page-backdrop" aria-hidden="true">
-      <img src="images/Asset 3.png" alt="">
-    </div>
-    <nav id="navbar">
-      <div class="nav-container">
-        <ul class="nav-left">
-          <li id="logo"><img src="images/Asset 1.svg" style="width: 40px; margin-right: 10px;"></li>
-          <li><a href="#banner">home</a></li>
-          <li><a href="#projects">work</a></li>
-          <li><a href="#ab">about</a></li>
-          <li><a href="#cm">contact</a></li>
-        </ul>
-
-        <ul class="nav-right">
-          <li><a href="mailto:darsheelpaila@gmail.com"><i class="fa-solid fa-envelope fa-2xl"></i></a></li>
-          <li><a href="https://github.com/darsheel-paila" target="_blank"><i class="fa-brands fa-github fa-2xl"></i></a></li>
-          <li><a href="https://www.instagram.com/darsheelpaila" target="_blank"><i class="fa-brands fa-instagram fa-2xl"></i></a></li>
-          <li><a href="https://www.linkedin.com/in/darsheel-paila-9b2893376/" target="_blank"><i class="fa-brands fa-linkedin fa-2xl"></i></a></li>
-        </ul>
-      </div>
-    </nav>
+  <body data-page="home">
+    <div id="backdrop-placeholder"></div>
+    <div id="navbar-placeholder"></div>
 
     <div id="banner">
-      <div class="banner-panel">
+      <div class="banner-panel glass-panel">
         <div class="lefttext">
-          <h2>what's up!</h2> 
-          <p>I'm <strong>Darsheel Paila</strong>, a sophomore at the <strong>School of Science and Engineering</strong>. I love building prototypes, improving my technical skillset, and researching how mechanical engineering and design integrate to produce sustainable and community-focused solutions.</p>
+          <h2>hi</h2> 
+          <p>I'm <strong>Darsheel Paila</strong>, a sophomore at the <strong>School of Science and Engineering</strong>. I love building prototypes and improving my technical skillset. :P</p>
         </div>
         <div class="profile-pic-wrap">
           <div class="profile-ring" aria-hidden="true"></div>
           <div class="profile-pic-inner">
-            <img src="images/Screenshot 2026-02-22 010642.png" alt="Darsheel Paila" class="profile-pic">
+            <img src="images/IMG_2139.jpg" alt="Darsheel Paila" class="profile-pic">
           </div>
         </div>
       </div>
     </div>
-
-    <section id="projects">
-      <h2 class="projects-heading">projects</h2>
-      <div class="projects-workspace">
-        <div class="projects-mosaic">
-          <article class="project" data-title="Scavenger (in progress)" data-desc="A cheap aquatic trash-collecting robot I am currently designing for the LitterLoot initiative to scalably reduce plastics in lakes, ponds, and similar-sized water bodies. Planning to complete the design with servo-powered trash-funneling nets, guardrails, IP68 propellers, a microcontroller, FPV camera, IR feedback system, an IMU, and a PSU. The robot is composed of PVC and Coroplast.">
-            <img src="images/scavenger.png" alt="Scavenger">
-          </article>
-          <article class="project" data-title="Dexter Demonstration" data-desc="Mechanical impedance, gesture localization, and latency demonstration of Dexter in a real-time video.">
-            <img src="images/Dexter.gif" alt="Dexter Demo">
-          </article>
-          <article class="project" data-title="Dexter" data-desc="A 3D printed robotic hand I designed from scratch with 6 degrees of freedom, controlled real-time by processed myoelectric signals. The joint Dexter-CRN system placed 4th out of over 40 projects in the robotics category (ROBO) in the Dallas Regional Science and Engineering Fair. Designed in Autodesk Fusion 360.">
-            <img src="images/Dexter.png" alt="Dexter">
-          </article>
-          <article class="project" data-title="S.C.O.U.T" data-desc="A 2-axis robot dog built in CAD and driven using Arduino, a custom PCB to handle high current draw, servos, and mechanical linkages. Designed in Onshape.">
-            <img src="images/scout.png" alt="S.C.O.U.T">
-          </article>
-          <article class="project" data-title="Duomorphic Photocatalytic-SODIS Purifier" data-desc="A water purification system I designed through 2 major iterations to compare photocatalysis and SODIS (Solar Water Disinfection) purification methods in my group's research. Placed 3rd at the Dallas EEI Research Symposium. Designed in Autodesk Fusion 360.">
-            <img src="images/EEI.png" alt="Duomorphic Purifier">
-          </article>
-          <article class="project" data-title="Bobby" data-desc="The full design of “Bobby,” my team’s robot, which I fully designed as the team’s CAD designer during the 2025–2026 FIRST Tech Challenge DECODE season. Designed in Autodesk Fusion 360.">
-            <img src="images/robotFTC.png" alt="Bobby">
-          </article>
-          <article class="project" data-title="Renovation" data-desc="Custom model of my house after a 2-story renovation. Designed in Autodesk Revit.">
-            <img src="images/Screenshot 2025-10-11 163315.png" alt="Renovation">
-          </article>
-          <article class="project project--placeholder" data-title="Coming Soon" data-desc="More projects on the way.">
-            <img src="images/PCB.png" alt="Coming soon">
-          </article>
-        </div>
-
-        <aside class="project-detail" aria-live="polite">
-          <p class="project-detail-empty">Hover a project to see details</p>
-          <div class="project-detail-content" hidden>
-            <div class="project-detail-media">
-              <img class="project-detail-img" src="" alt="">
-            </div>
-            <div class="project-detail-text">
-              <h3 class="project-detail-title"></h3>
-              <p class="project-detail-desc"></p>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </section>
 
     <footer class="bottombar">
       <div class="bottombar-inner">
@@ -100,7 +36,7 @@
             <h2>About</h2>
             <p>If I had to describe myself in one word, it would be <s>efficient</s> <strong>driven</strong>.
             I care deeply about the solutions I chase, even as I learn how to get there the smart way.</p>
-            <p>As my interests shift between topics like sustainable energy, materials science, and robotics, two things never leave: <strong>design/art</strong>, because I genuinely love creating,
+            <p>As my interests shift between topics like sustainability, materials science, and robotics, two things never leave: <strong>design/art</strong>, because I genuinely love creating,
             and <strong>engineering</strong>, where I turn abstract ideas into something physical - usually after taking the long road first.
             Always down to chat about interesting topics and random ideas!</p>
           </section>
@@ -148,6 +84,7 @@
 
       <p id="author">@Darsheel Paila 2026</p>
     </footer>
-    <script src="portfolio.js?v=9"></script>
+    <script src="site-shared.js"></script>
+    <script src="portfolio.js?v=11"></script>
   </body>
 </html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Project - Darsheel Paila</title>
+    <script src="https://kit.fontawesome.com/e3807e47d1.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="portfolio.css?v=30">
+    <link rel="icon" type="image/svg+xml" href="images/Asset 1.svg">
+  </head>
+
+  <body data-page="project">
+    <div id="backdrop-placeholder"></div>
+    <div id="navbar-placeholder"></div>
+
+    <main class="project-page">
+      <div class="project-page-inner">
+        <div class="project-header">
+          <a id="prev-project" class="project-arrow project-arrow--prev" href="#" aria-label="Previous project">
+            <i class="fa-solid fa-chevron-left"></i>
+          </a>
+
+          <div class="project-title-dropdown glass-panel">
+            <button id="project-title-btn" class="project-title-btn" type="button" aria-expanded="false" aria-haspopup="listbox">
+              <span id="project-title-text">Project</span>
+              <i class="fa-solid fa-chevron-down project-title-chevron" aria-hidden="true"></i>
+            </button>
+            <ul id="project-dropdown" class="project-dropdown" role="listbox" hidden></ul>
+          </div>
+
+          <a id="next-project" class="project-arrow project-arrow--next" href="#" aria-label="Next project">
+            <i class="fa-solid fa-chevron-right"></i>
+          </a>
+        </div>
+
+        <div class="project-panel glass-panel">
+          <div class="project-content-zone">
+            <div class="project-panel-body">
+              <div class="project-panel-media">
+                <img id="project-hero-img" src="" alt="">
+              </div>
+              <div id="project-content" class="project-panel-content"></div>
+            </div>
+          </div>
+          <div id="project-supplemental" class="project-supplemental" hidden></div>
+        </div>
+      </div>
+    </main>
+
+    <p id="author" class="page-author">@Darsheel Paila 2026</p>
+
+    <script src="site-shared.js"></script>
+    <script src="projects-data.js"></script>
+    <script src="project-detail.js"></script>
+    <script src="portfolio.js?v=12"></script>
+  </body>
+</html>
